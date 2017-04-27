@@ -9,8 +9,7 @@ class TestInstagramClient(responses: Map[Option[String], String]) extends Instag
 }
 
 class InstagramClientSpec extends FlatSpec {
-  private val maxId = "13872296"
-  private val nextUrl = s"https://api.instagram.com/v1/tags/puppy/media/recent?access_token=fb2e77d.47a0479900504cb3ab4a1f626d174d2d&max_id=$maxId"
+  private val nextUrl = (maxId: String) => s"https://api.instagram.com/v1/tags/puppy/media/recent?access_token=fb2e77d.47a0479900504cb3ab4a1f626d174d2d&max_id=$maxId"
   private val item = (id: String) => s"""
     |      {
     |        "type": "image",
@@ -105,8 +104,8 @@ class InstagramClientSpec extends FlatSpec {
   private val responseWithPagination = (id: String) => s"""
     |{
     |    "pagination": {
-    |      "next_url": "$nextUrl",
-    |      "next_max_id": "$maxId"
+    |      "next_url": "${nextUrl(id)}",
+    |      "next_max_id": "$id"
     |    },
     |    "data": [${item(id)}]
     |}
@@ -124,16 +123,14 @@ class InstagramClientSpec extends FlatSpec {
   }
 
   it should "dereference pagination" in {
-    val id1 = "123"
-    val id2 = "456"
+    val (id1, id2, id3) = ("123", "456", "789")
     val client = new TestInstagramClient(Map(
       None -> responseWithPagination(id1),
-      Some(nextUrl) -> responseWithoutPagination(id2)))
+      Some(nextUrl(id1)) -> responseWithPagination(id2),
+      Some(nextUrl(id2)) -> responseWithoutPagination(id3)))
 
     val response = client.loadNewInstagrams().toList
 
-    assert(response.length === 2)
-    assert(response.head === itemObj(id1))
-    assert(response.tail.head === itemObj(id2))
+    assert(response === List(itemObj(id1), itemObj(id2), itemObj(id3)))
   }
 }
