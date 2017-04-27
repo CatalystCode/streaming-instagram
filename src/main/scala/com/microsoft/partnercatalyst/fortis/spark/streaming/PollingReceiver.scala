@@ -35,5 +35,5 @@ abstract class PollingReceiver[T](
     }
   }
 
-  protected def poll()
+  protected def poll(): Unit
 }
