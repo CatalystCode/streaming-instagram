@@ -1,7 +1,6 @@
-package com.microsoft.partnercatalyst.fortis.spark.streaming
+package com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.client
 
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.InstagramAuth
-import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.client.InstagramClient
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.dto._
 import org.scalatest.FlatSpec
 
