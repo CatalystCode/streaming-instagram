@@ -1,75 +1,75 @@
 package com.microsoft.partnercatalyst.fortis.spark.sources.instagram.dto
 
-case class JsonInstagramResponse(
-  data: List[JsonInstagramItem],
-  pagination: Option[JsonInstagramPagination] = None,
-  meta: Option[JsonInstagramMeta] = None
+case class InstagramResponse(
+  data: List[InstagramItem],
+  pagination: Option[InstagramPagination] = None,
+  meta: Option[InstagramMeta] = None
 )
 
-case class JsonInstagramPagination(
+case class InstagramPagination(
   next_url: Option[String] = None,
   next_min_id: Option[String] = None,
   next_max_id: Option[String] = None
 )
 
-case class JsonInstagramMeta(
+case class InstagramMeta(
   code: Int,
   error_type: Option[String] = None,
   error_message: Option[String] = None
 )
 
-case class JsonInstagramItem(
+case class InstagramItem(
   `type`: String,
-  users_in_photo: Option[List[JsonInstagramUser]] = None,
+  users_in_photo: List[InstagramUser] = List(),
   filter: Option[String] = None,
-  tags: Option[List[String]] = None,
-  comments: JsonInstagramComments,
-  caption: JsonInstagramCaption,
-  user_has_liked: Boolean,
-  likes: JsonInstagramLikes,
+  tags: List[String] = List(),
+  comments: InstagramComments,
+  caption: InstagramCaption,
+  user_has_liked: Option[Boolean] = None,
+  likes: InstagramLikes,
   link: String,
-  user: JsonInstagramUser,
+  user: InstagramUser,
   created_time: String,
-  images: JsonInstagramImages,
+  images: InstagramImages,
   id: String,
-  location: Option[JsonInstagramLocation] = None
+  location: Option[InstagramLocation] = None
 )
 
-case class JsonInstagramComments(
+case class InstagramComments(
   count: Int
 )
 
-case class JsonInstagramCaption(
+case class InstagramCaption(
   created_time: String,
   text: String,
-  from: JsonInstagramUser,
+  from: InstagramUser,
   id: String
 )
 
-case class JsonInstagramUser(
+case class InstagramUser(
   username: String,
   id: String,
   profile_picture: Option[String] = None,
   full_name: Option[String] = None
 )
 
-case class JsonInstagramLikes(
+case class InstagramLikes(
   count: Int
 )
 
-case class JsonInstagramImages(
-  low_resolution: JsonInstagramImage,
-  standard_resolution: JsonInstagramImage,
-  thumbnail: JsonInstagramImage
+case class InstagramImages(
+  low_resolution: InstagramImage,
+  standard_resolution: InstagramImage,
+  thumbnail: InstagramImage
 )
 
-case class JsonInstagramImage(
+case class InstagramImage(
   url: String,
   width: Int,
   height: Int
 )
 
-case class JsonInstagramLocation(
+case class InstagramLocation(
   latitude: Double,
   longitude: Double,
   id: Option[String] = None,

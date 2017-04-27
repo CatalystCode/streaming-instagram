@@ -1,23 +1,24 @@
-## What's this? ##
+A library for reading social data from [Instagram](http://instagram.com) using Spark Streaming.
 
-Demo of ingesting Instagram data into Spark Streaming and analyzing the pictures using Cognitive Services.
+## Usage example ##
 
-Run it via:
+Run a demo via:
 
 ```sh
 # compile scala, run tests, build fat jar
 sbt assembly
 
 # run on spark
-spark-submit --class Main --master local[4] target/scala-2.11/simple-project-assembly-1.0.jar
+spark-submit --class Demo --master local[4] target/scala-2.11/streaming-instagram-assembly-1.0.jar
 ```
 
-Remember to update the Instagram and Cognitive Services access tokens in `Main.scala`!
+Remember to update the Instagram access token in `Demo.scala` first!
 
 ## How does it work? ##
 
 Instagram doesn't expose a firehose API so we resort to polling. The InstagramReceiver pings the Instagram API every few
-seconds and pushes any new images into Spark Streaming for further processing. The images are then picked up by
-ImageAnalyzer and sent to Cognitive Services to be augmented with the analysis results.
+seconds and pushes any new images into Spark Streaming for further processing.
 
-Currently, ingestion of images by location (latitude/longitude) or hashtag are supported.
+Currently, the following ways to read images are supported:
+- by location ([sample data](https://www.instagram.com/explore/locations/213819997/vancouver-british-columbia/))
+- by tag ([sample data](https://www.instagram.com/explore/tags/rose/))

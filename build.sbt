@@ -1,4 +1,4 @@
-name := "simple-project"
+name := "streaming-instagram"
 
 version := "1.0"
 
@@ -14,7 +14,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.1.0" % "provided",
   "org.apache.spark" % "spark-streaming_2.11" % "2.1.0",
   "net.liftweb" %% "lift-json" % "3.0.1",
-  "org.scalaj" %% "scalaj-http" % "2.3.0",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
 

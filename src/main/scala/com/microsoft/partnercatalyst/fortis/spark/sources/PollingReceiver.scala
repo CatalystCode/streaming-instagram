@@ -5,18 +5,18 @@ import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.receiver.Receiver
 
-case class Schedule(interval: Long, unit: TimeUnit, initialDelay: Long = 1)
+case class PollingSchedule(interval: Long, unit: TimeUnit, initialDelay: Long = 1)
 
 abstract class PollingReceiver[T](
-  schedule: Schedule,
-  storageLevel: StorageLevel,
-  numWorkers: Int
+ pollingSchedule: PollingSchedule,
+ pollingWorkers: Int,
+ storageLevel: StorageLevel
 ) extends Receiver[T](storageLevel) {
 
   private var threadPool: ScheduledThreadPoolExecutor = _
 
   def onStart(): Unit = {
-    threadPool = new ScheduledThreadPoolExecutor(numWorkers)
+    threadPool = new ScheduledThreadPoolExecutor(pollingWorkers)
 
     val pollingThread = new Thread("Polling thread") {
       override def run(): Unit = {
@@ -24,7 +24,9 @@ abstract class PollingReceiver[T](
       }
     }
 
-    threadPool.scheduleAtFixedRate(pollingThread, schedule.initialDelay, schedule.interval, schedule.unit)
+    threadPool.scheduleAtFixedRate(
+      pollingThread, pollingSchedule.initialDelay,
+      pollingSchedule.interval, pollingSchedule.unit)
   }
 
   def onStop(): Unit = {
