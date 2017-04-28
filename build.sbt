@@ -1,6 +1,8 @@
 name := "streaming-instagram"
 
-version := "1.0"
+organization := "com.microsoft.partnercatalyst"
+
+version := "0.0.1-alpha"
 
 scalaVersion := "2.11.7"
 

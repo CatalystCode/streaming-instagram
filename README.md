@@ -11,7 +11,7 @@ Run a demo via:
 sbt assembly
 
 # run on spark
-spark-submit --class Demo --master local[4] target/scala-2.11/streaming-instagram-assembly-1.0.jar
+spark-submit --class Demo --master local[4] target/scala-2.11/streaming-instagram-assembly-0.0.1-alpha.jar
 ```
 
 Remember to update the Instagram access token in [Demo.scala](https://github.com/CatalystCode/streaming-instagram/blob/master/src/main/scala/Demo.scala)!
