@@ -1,11 +1,17 @@
 package com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.client
 
+import java.io.IOException
+
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.InstagramAuth
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.dto._
 import org.scalatest.FlatSpec
 
 class TestInstagramClient(responses: Map[Option[String], String]) extends InstagramClient(InstagramAuth("token")) {
   override protected def fetchInstagramResponse(url: Option[String] = None): String = responses(url)
+}
+
+class TestExceptionInstagramClient(exception: Exception) extends InstagramClient(InstagramAuth("token")) {
+  override protected def fetchInstagramResponse(url: Option[String] = None): String = throw exception
 }
 
 class InstagramClientSpec extends FlatSpec {
@@ -132,5 +138,13 @@ class InstagramClientSpec extends FlatSpec {
     val response = client.loadNewInstagrams().toList
 
     assert(response === List(itemObj(id1), itemObj(id2), itemObj(id3)))
+  }
+
+  it should "handle exceptions" in {
+    val client = new TestExceptionInstagramClient(new IOException())
+
+    val response = client.loadNewInstagrams()
+
+    assert(response === List())
   }
 }

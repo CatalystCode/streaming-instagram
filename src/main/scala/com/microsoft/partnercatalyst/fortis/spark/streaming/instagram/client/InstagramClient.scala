@@ -1,5 +1,7 @@
 package com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.client
 
+import java.io.IOException
+
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.InstagramAuth
 import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.dto.{InstagramItem, InstagramResponse}
 import net.liftweb.json
@@ -7,7 +9,11 @@ import net.liftweb.json
 @SerialVersionUID(100L)
 abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
   def loadNewInstagrams(): Iterable[InstagramItem] = {
-    loadNewInstagramsPaginated()
+    try {
+      loadNewInstagramsPaginated()
+    } catch {
+      case ex: IOException => List()
+    }
   }
 
   private def loadNewInstagramsPaginated(url: Option[String] = None): Iterable[InstagramItem] = {
