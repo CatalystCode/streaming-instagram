@@ -1,6 +1,6 @@
 A library for reading social data from [Instagram](http://instagram.com) using Spark Streaming.
 
-[![Travis CI status](https://api.travis-ci.org/CatalystCode/spark-instagram.svg?branch=master)](https://travis-ci.org/CatalystCode/streaming-instagram)
+[![Travis CI status](https://api.travis-ci.org/CatalystCode/streaming-instagram.svg?branch=master)](https://travis-ci.org/CatalystCode/streaming-instagram)
 
 ## Usage example ##
 
