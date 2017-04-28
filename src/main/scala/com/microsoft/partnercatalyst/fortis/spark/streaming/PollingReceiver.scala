@@ -7,20 +7,20 @@ import org.apache.spark.streaming.receiver.Receiver
 
 case class PollingSchedule(interval: Long, unit: TimeUnit, initialDelay: Long = 1)
 
-abstract class PollingReceiver[T](
- pollingSchedule: PollingSchedule,
- pollingWorkers: Int,
- storageLevel: StorageLevel
-) extends Receiver[T](storageLevel) {
+class PollingFunction(
+  callback: () => Any,
+  pollingSchedule: PollingSchedule,
+  pollingWorkers: Int
+) {
 
   private var threadPool: ScheduledThreadPoolExecutor = _
 
-  def onStart(): Unit = {
+  def start(): Unit = {
     threadPool = new ScheduledThreadPoolExecutor(pollingWorkers)
 
     val pollingThread = new Thread("Polling thread") {
       override def run(): Unit = {
-        poll()
+        callback()
       }
     }
 
@@ -29,9 +29,28 @@ abstract class PollingReceiver[T](
       pollingSchedule.interval, pollingSchedule.unit)
   }
 
-  def onStop(): Unit = {
+  def stop(): Unit = {
     if (threadPool != null) {
       threadPool.shutdown()
+    }
+  }
+}
+
+abstract class PollingReceiver[T](
+ pollingSchedule: PollingSchedule,
+ pollingWorkers: Int,
+ storageLevel: StorageLevel
+) extends Receiver[T](storageLevel) {
+
+  private var pollingFunction: PollingFunction = _
+
+  def onStart(): Unit = {
+    pollingFunction = new PollingFunction(poll, pollingSchedule, pollingWorkers)
+  }
+
+  def onStop(): Unit = {
+    if (pollingFunction != null) {
+      pollingFunction.stop()
     }
   }
 
