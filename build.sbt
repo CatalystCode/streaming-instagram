@@ -1,9 +1,8 @@
+organization := "com.github.catalystcode"
 name := "streaming-instagram"
-
-organization := "com.microsoft.partnercatalyst"
+description := "A library for reading social data from Instagram using Spark Streaming."
 
 version := "0.0.1-alpha"
-
 scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq(
