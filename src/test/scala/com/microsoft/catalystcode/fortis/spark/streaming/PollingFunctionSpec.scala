@@ -1,4 +1,4 @@
-package com.microsoft.partnercatalyst.fortis.spark.streaming
+package com.microsoft.catalystcode.fortis.spark.streaming
 
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger

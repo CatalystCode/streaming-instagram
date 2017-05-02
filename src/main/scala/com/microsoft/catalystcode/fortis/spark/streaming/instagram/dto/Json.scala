@@ -1,4 +1,4 @@
-package com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.dto
+package com.microsoft.catalystcode.fortis.spark.streaming.instagram.dto
 
 case class InstagramResponse(
   data: List[InstagramItem],

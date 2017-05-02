@@ -1,9 +1,9 @@
-package com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.client
+package com.microsoft.catalystcode.fortis.spark.streaming.instagram.client
 
 import java.io.IOException
 
-import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.InstagramAuth
-import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.dto._
+import com.microsoft.catalystcode.fortis.spark.streaming.instagram.InstagramAuth
+import com.microsoft.catalystcode.fortis.spark.streaming.instagram.dto._
 import org.scalatest.FlatSpec
 
 class TestInstagramClient(responses: Map[Option[String], String]) extends InstagramClient(InstagramAuth("token")) {

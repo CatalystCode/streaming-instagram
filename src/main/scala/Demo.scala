@@ -1,4 +1,4 @@
-import com.microsoft.partnercatalyst.fortis.spark.streaming.instagram.{InstagramAuth, InstagramUtils}
+import com.microsoft.catalystcode.fortis.spark.streaming.instagram.{InstagramAuth, InstagramUtils}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
