@@ -30,10 +30,11 @@ credentials += Credentials(
 organizationName := "Partner Catalyst"
 organizationHomepage := Some(url("https://github.com/CatalystCode"))
 
-publishTo <<= version { v: String =>
+publishTo := {
+  val isSnapshot = version.value.trim.endsWith("SNAPSHOT")
   val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
-  else                             Some("releases" at nexus + "service/local/staging/deploy/maven2")
+  if (isSnapshot) Some("snapshots" at nexus + "content/repositories/snapshots")
+  else            Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 publishMavenStyle := true
