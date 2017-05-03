@@ -2,7 +2,7 @@ import com.microsoft.catalystcode.fortis.spark.streaming.instagram.{InstagramAut
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-object Demo {
+object InstagramDemo {
   def main(args: Array[String]) {
     // configure location for which to ingest images
     // also configure tag for which to ingest images
