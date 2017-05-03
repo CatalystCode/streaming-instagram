@@ -1,10 +1,10 @@
-package com.microsoft.catalystcode.fortis.spark.streaming.instagram
+package com.github.catalystcode.fortis.spark.streaming.instagram
 
 import java.util.concurrent.TimeUnit
 
-import com.microsoft.catalystcode.fortis.spark.streaming.PollingSchedule
-import com.microsoft.catalystcode.fortis.spark.streaming.instagram.client.{InstagramLocationClient,InstagramTagClient}
-import com.microsoft.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
+import com.github.catalystcode.fortis.spark.streaming.PollingSchedule
+import com.github.catalystcode.fortis.spark.streaming.instagram.client.{InstagramLocationClient,InstagramTagClient}
+import com.github.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.ReceiverInputDStream

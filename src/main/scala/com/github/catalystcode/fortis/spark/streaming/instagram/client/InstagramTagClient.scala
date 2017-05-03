@@ -1,6 +1,6 @@
-package com.microsoft.catalystcode.fortis.spark.streaming.instagram.client
+package com.github.catalystcode.fortis.spark.streaming.instagram.client
 
-import com.microsoft.catalystcode.fortis.spark.streaming.instagram.InstagramAuth
+import com.github.catalystcode.fortis.spark.streaming.instagram.InstagramAuth
 
 import scala.io.Source
 

@@ -1,8 +1,8 @@
-package com.microsoft.catalystcode.fortis.spark.streaming.instagram
+package com.github.catalystcode.fortis.spark.streaming.instagram
 
-import com.microsoft.catalystcode.fortis.spark.streaming.instagram.client.InstagramClient
-import com.microsoft.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
-import com.microsoft.catalystcode.fortis.spark.streaming.{PollingReceiver, PollingSchedule}
+import com.github.catalystcode.fortis.spark.streaming.instagram.client.InstagramClient
+import com.github.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
+import com.github.catalystcode.fortis.spark.streaming.{PollingReceiver, PollingSchedule}
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.ReceiverInputDStream

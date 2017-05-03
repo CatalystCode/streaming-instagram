@@ -1,4 +1,4 @@
-package com.microsoft.catalystcode.fortis.spark.streaming
+package com.github.catalystcode.fortis.spark.streaming
 
 import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
 
