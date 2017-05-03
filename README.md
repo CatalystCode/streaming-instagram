@@ -11,7 +11,7 @@ Run a demo via:
 sbt assembly
 
 # run on spark
-spark-submit --class InstagramDemo --master local[4] target/scala-2.11/streaming-instagram-assembly-0.0.1-alpha.jar
+spark-submit --class InstagramDemo --master local[4] target/scala-2.11/streaming-instagram-assembly-${VERSION}.jar
 ```
 
 Remember to update the Instagram access token in the demo file!
@@ -24,3 +24,11 @@ seconds and pushes any new images into Spark Streaming for further processing.
 Currently, the following ways to read images are supported:
 - by location ([sample data](https://www.instagram.com/explore/locations/213819997/vancouver-british-columbia/))
 - by tag ([sample data](https://www.instagram.com/explore/tags/rose/))
+
+## Release process ##
+
+1. Configure your credentials via the `SONATYPE_USER` and `SONATYPE_PASSWORD` environment variables.
+2. Update `version.sbt`
+3. Run `sbt sonatypeOpen "enter staging description here"`
+4. Run `sbt publishSigned`
+5. Run `sbt sonatypeRelease`
