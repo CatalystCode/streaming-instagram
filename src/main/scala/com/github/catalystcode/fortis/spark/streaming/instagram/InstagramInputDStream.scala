@@ -20,6 +20,7 @@ private class InstagramReceiver(
   override protected def poll(): Unit = {
     client
       .loadNewInstagrams()
+      .filter(x => x.created_time.toLong > lastIngestedEpoch)
       .foreach(x => {
         store(x)
         markStored(x)
