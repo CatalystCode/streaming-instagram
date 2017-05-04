@@ -20,6 +20,7 @@ class PollingFunction(
 
     val pollingThread = new Thread("Polling thread") {
       override def run(): Unit = {
+        println("Executing polling function")
         callback()
       }
     }

@@ -12,7 +12,7 @@ abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
     try {
       loadNewInstagramsPaginated()
     } catch {
-      case ex: IOException => List()
+      case ex: IOException => println(ex); List()
     }
   }
 
@@ -22,9 +22,11 @@ abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
     val response = json.parse(fetchInstagramResponse(url))
       .extract[InstagramResponse]
 
+    println(s"Got json response with ${response.data.length} entries")
     var payload = response.data
 
     if (response.pagination.isDefined) {
+      println(s"Fetching next results page from ${response.pagination.get.next_url}")
       payload ++= loadNewInstagramsPaginated(response.pagination.get.next_url)
     }
 
