@@ -3,7 +3,6 @@ package com.github.catalystcode.fortis.spark.streaming.instagram
 import com.github.catalystcode.fortis.spark.streaming.instagram.client.InstagramClient
 import com.github.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
 import com.github.catalystcode.fortis.spark.streaming.{PollingReceiver, PollingSchedule}
-import org.apache.log4j.LogManager
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.ReceiverInputDStream
@@ -14,21 +13,20 @@ private class InstagramReceiver(
   pollingSchedule: PollingSchedule,
   storageLevel: StorageLevel,
   pollingWorkers: Int
-) extends PollingReceiver[InstagramItem](pollingSchedule, pollingWorkers, storageLevel) {
+) extends PollingReceiver[InstagramItem](pollingSchedule, pollingWorkers, storageLevel) with Logger {
 
-  @transient private lazy val log = LogManager.getLogger("libinstagram")
   @volatile private var lastIngestedEpoch = Long.MinValue
 
   override protected def poll(): Unit = {
     client
       .loadNewInstagrams()
       .filter(x => {
-        val isNew = x.created_time.toLong > lastIngestedEpoch
-        log.info(s"Got instagram ${x.link}, isNew = $isNew")
-        isNew
+        val createdAt = x.created_time.toLong
+        logDebug(s"Got instagram ${x.link} from time $createdAt")
+        createdAt > lastIngestedEpoch
       })
       .foreach(x => {
-        log.info(s"Storing instagram ${x.link}")
+        logInfo(s"Storing instagram ${x.link}")
         store(x)
         markStored(x)
       })
@@ -38,7 +36,7 @@ private class InstagramReceiver(
     val itemCreatedAt = item.created_time.toLong
     if (itemCreatedAt > lastIngestedEpoch) {
       lastIngestedEpoch = itemCreatedAt
-      log.info(s"Updating last ingested epoch to $itemCreatedAt")
+      logDebug(s"Updating last ingested epoch to $itemCreatedAt")
     }
   }
 }

@@ -2,22 +2,19 @@ package com.github.catalystcode.fortis.spark.streaming.instagram.client
 
 import java.io.IOException
 
-import com.github.catalystcode.fortis.spark.streaming.instagram.InstagramAuth
+import com.github.catalystcode.fortis.spark.streaming.instagram.{InstagramAuth, Logger}
 import com.github.catalystcode.fortis.spark.streaming.instagram.dto.{InstagramItem, InstagramResponse}
 import net.liftweb.json
-import org.apache.log4j.{LogManager, Logger}
 
 @SerialVersionUID(100L)
-abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
-
-  @transient protected lazy val log: Logger = LogManager.getLogger("libinstagram")
+abstract class InstagramClient(auth: InstagramAuth) extends Serializable with Logger {
 
   def loadNewInstagrams(): Iterable[InstagramItem] = {
     try {
       loadNewInstagramsPaginated()
     } catch {
       case ex: IOException =>
-        log.error(s"Exception while loading instagrams: $ex")
+        logError(s"Exception while loading instagrams", ex)
         List()
     }
   }
@@ -28,11 +25,11 @@ abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
     val response = json.parse(fetchInstagramResponse(url))
       .extract[InstagramResponse]
 
-    log.info(s"Got json response with ${response.data.length} entries")
+    logInfo(s"Got json response with ${response.data.length} entries")
     var payload = response.data
 
     if (response.pagination.isDefined && response.pagination.get.next_url.isDefined) {
-      log.info(s"Fetching next results page from ${response.pagination.get.next_url}")
+      logInfo(s"Fetching next results page from ${response.pagination.get.next_url}")
       payload ++= loadNewInstagramsPaginated(response.pagination.get.next_url)
     }
 

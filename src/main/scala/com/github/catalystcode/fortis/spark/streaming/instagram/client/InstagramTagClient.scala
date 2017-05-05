@@ -8,7 +8,7 @@ import scala.io.Source
 class InstagramTagClient(tag: String, auth: InstagramAuth) extends InstagramClient(auth) {
   override protected def fetchInstagramResponse(url: Option[String] = None): String = {
     val fetch = url.getOrElse(s"https://${auth.apiHost}/v1/tags/$tag/media/recent?access_token=${auth.accessToken}")
-    log.info(s"Fetching response from $fetch")
+    logInfo(s"Fetching response from $fetch")
     Source.fromURL(fetch).mkString
   }
 }
