@@ -13,8 +13,11 @@ export INSTAGRAM_AUTH_TOKEN="..."
 # compile scala, run tests, build fat jar
 sbt assembly
 
+# run locally
+java -cp target/scala-2.11/streaming-instagram-assembly-${VERSION}.jar InstagramDemo standalone
+
 # run on spark
-spark-submit --class InstagramDemo --master local[4] target/scala-2.11/streaming-instagram-assembly-${VERSION}.jar
+spark-submit --class InstagramDemo --master local[4] target/scala-2.11/streaming-instagram-assembly-${VERSION}.jar spark
 ```
 
 ## How does it work? ##
