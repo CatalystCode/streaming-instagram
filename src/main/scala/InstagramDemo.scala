@@ -11,7 +11,7 @@ object InstagramDemo {
     val tag = "rose"
 
     // configure interaction with instagram api
-    val auth = InstagramAuth("INSERT_INSTAGRAM_AUTH_TOKEN_HERE")
+    val auth = InstagramAuth(System.getenv("INSTAGRAM_AUTH_TOKEN"))
 
     // set up the spark context and streams
     val conf = new SparkConf().setAppName("Instagram Spark Streaming Demo Application")

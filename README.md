@@ -7,14 +7,15 @@ A library for reading social data from [Instagram](http://instagram.com) using S
 Run a demo via:
 
 ```sh
+# set up all the requisite environment variables
+export INSTAGRAM_AUTH_TOKEN="..."
+
 # compile scala, run tests, build fat jar
 sbt assembly
 
 # run on spark
 spark-submit --class InstagramDemo --master local[4] target/scala-2.11/streaming-instagram-assembly-${VERSION}.jar
 ```
-
-Remember to update the Instagram access token in the demo file!
 
 ## How does it work? ##
 
