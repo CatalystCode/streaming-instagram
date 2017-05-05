@@ -104,6 +104,9 @@ class InstagramClientSpec extends FlatSpec {
       id = id)
   private val responseWithoutPagination = (id: String) => s"""
     |{
+    |    "pagination": {
+    |      "next_max_id": "$id"
+    |    },
     |    "data": [${item(id)}]
     |}
     """.stripMargin

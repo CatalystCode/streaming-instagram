@@ -25,7 +25,7 @@ abstract class InstagramClient(auth: InstagramAuth) extends Serializable {
     println(s"Got json response with ${response.data.length} entries")
     var payload = response.data
 
-    if (response.pagination.isDefined) {
+    if (response.pagination.isDefined && response.pagination.get.next_url.isDefined) {
       println(s"Fetching next results page from ${response.pagination.get.next_url}")
       payload ++= loadNewInstagramsPaginated(response.pagination.get.next_url)
     }
