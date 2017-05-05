@@ -13,7 +13,7 @@ class InstagramLocationClient(
 ) extends InstagramClient(auth) {
   override protected def fetchInstagramResponse(url: Option[String] = None): String = {
     val fetch = url.getOrElse(s"https://${auth.apiHost}/v1/media/search?lat=$latitude&lng=$longitude&distance=$distance&access_token=${auth.accessToken}")
-    println(s"Fetching response from $fetch")
+    log.info(s"Fetching response from $fetch")
     Source.fromURL(fetch).mkString
   }
 }

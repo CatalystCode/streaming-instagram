@@ -1,5 +1,6 @@
 import com.github.catalystcode.fortis.spark.streaming.instagram.client.{InstagramLocationClient, InstagramTagClient}
 import com.github.catalystcode.fortis.spark.streaming.instagram.{InstagramAuth, InstagramUtils}
+import org.apache.log4j.{BasicConfigurator, Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
@@ -14,6 +15,11 @@ object InstagramDemo {
 
     // configure interaction with instagram api
     val auth = InstagramAuth(System.getenv("INSTAGRAM_AUTH_TOKEN"))
+
+    // configure logging
+    BasicConfigurator.configure()
+    Logger.getRootLogger.setLevel(Level.ERROR)
+    Logger.getLogger("libinstagram").setLevel(Level.DEBUG)
 
     if (mode.contains("standalone")) {
       println(new InstagramLocationClient(latitude = latitude, longitude = longitude, distance = 1000, auth = auth).loadNewInstagrams().toList)
