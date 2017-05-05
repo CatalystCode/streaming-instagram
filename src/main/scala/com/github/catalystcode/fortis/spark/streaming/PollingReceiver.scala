@@ -8,16 +8,16 @@ import org.apache.spark.streaming.receiver.Receiver
 
 case class PollingSchedule(interval: Long, unit: TimeUnit, initialDelay: Long = 1)
 
-class PollingFunction(
-  callback: () => Any,
-  pollingSchedule: PollingSchedule,
-  pollingWorkers: Int
-) {
+abstract class PollingReceiver[T](
+ pollingSchedule: PollingSchedule,
+ pollingWorkers: Int,
+ storageLevel: StorageLevel
+) extends Receiver[T](storageLevel) {
 
   @transient private lazy val log = LogManager.getLogger("libinstagram")
   private var threadPool: ScheduledThreadPoolExecutor = _
 
-  def start(): Unit = {
+  def onStart(): Unit = {
     log.debug("Creating polling threadpool")
     threadPool = new ScheduledThreadPoolExecutor(pollingWorkers)
 
@@ -25,7 +25,7 @@ class PollingFunction(
     val pollingThread = new Thread("Polling thread") {
       override def run(): Unit = {
         log.debug("Executing polling function")
-        callback()
+        poll()
       }
     }
 
@@ -35,32 +35,10 @@ class PollingFunction(
       pollingSchedule.interval, pollingSchedule.unit)
   }
 
-  def stop(): Unit = {
+  def onStop(): Unit = {
     if (threadPool != null) {
       log.debug("Shutting down polling threadpool")
       threadPool.shutdown()
-    }
-  }
-}
-
-abstract class PollingReceiver[T](
- pollingSchedule: PollingSchedule,
- pollingWorkers: Int,
- storageLevel: StorageLevel
-) extends Receiver[T](storageLevel) {
-
-  @transient private lazy val log = LogManager.getLogger("libinstagram")
-  private var pollingFunction: PollingFunction = _
-
-  def onStart(): Unit = {
-    log.debug("Starting polling receiver")
-    pollingFunction = new PollingFunction(poll, pollingSchedule, pollingWorkers)
-  }
-
-  def onStop(): Unit = {
-    if (pollingFunction != null) {
-      log.debug("Shutting down polling receiver")
-      pollingFunction.stop()
     }
   }
 
