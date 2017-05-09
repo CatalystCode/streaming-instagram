@@ -12,7 +12,7 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.1.0" % "provided",
-  "org.apache.spark" % "spark-streaming_2.11" % "2.1.0",
+  "org.apache.spark" % "spark-streaming_2.11" % "2.1.0" % "provided",
   "net.liftweb" %% "lift-json" % "3.0.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
