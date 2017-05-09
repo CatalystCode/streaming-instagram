@@ -28,6 +28,7 @@ seconds and pushes any new images into Spark Streaming for further processing.
 Currently, the following ways to read images are supported:
 - by location ([sample data](https://www.instagram.com/explore/locations/213819997/vancouver-british-columbia/))
 - by tag ([sample data](https://www.instagram.com/explore/tags/rose/))
+- by user ([sample data](https://www.instagram.com/viawesome/))
 
 ## Release process ##
 

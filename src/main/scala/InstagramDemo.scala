@@ -1,4 +1,4 @@
-import com.github.catalystcode.fortis.spark.streaming.instagram.client.{InstagramLocationClient, InstagramTagClient}
+import com.github.catalystcode.fortis.spark.streaming.instagram.client._
 import com.github.catalystcode.fortis.spark.streaming.instagram.{InstagramAuth, InstagramUtils}
 import org.apache.log4j.{BasicConfigurator, Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
@@ -12,6 +12,7 @@ object InstagramDemo {
     val latitude = 49.25
     val longitude = -123.1
     val tag = "rose"
+    val userId = "700400804"
 
     // configure interaction with instagram api
     val auth = InstagramAuth(System.getenv("INSTAGRAM_AUTH_TOKEN"))
@@ -24,6 +25,7 @@ object InstagramDemo {
     if (mode.contains("standalone")) {
       println(new InstagramLocationClient(latitude = latitude, longitude = longitude, distance = 1000, auth = auth).loadNewInstagrams().toList)
       println(new InstagramTagClient(tag = tag, auth = auth).loadNewInstagrams().toList)
+      println(new InstagramUserClient(userId = userId, auth = auth).loadNewInstagrams().toList)
     }
 
     if (mode.contains("spark")) {
@@ -34,6 +36,7 @@ object InstagramDemo {
 
       InstagramUtils.createLocationStream(ssc, auth, latitude, longitude)
         .union(InstagramUtils.createTagStream(ssc, auth, tag))
+        .union(InstagramUtils.createUserStream(ssc, auth, userId))
         .print()
 
       // run forever

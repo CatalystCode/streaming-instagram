@@ -3,7 +3,7 @@ package com.github.catalystcode.fortis.spark.streaming.instagram
 import java.util.concurrent.TimeUnit
 
 import com.github.catalystcode.fortis.spark.streaming.PollingSchedule
-import com.github.catalystcode.fortis.spark.streaming.instagram.client.{InstagramLocationClient,InstagramTagClient}
+import com.github.catalystcode.fortis.spark.streaming.instagram.client._
 import com.github.catalystcode.fortis.spark.streaming.instagram.dto.InstagramItem
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext
@@ -44,6 +44,24 @@ object InstagramUtils {
       ssc = ssc,
       client = new InstagramTagClient(
         tag = tag,
+        auth = auth),
+      pollingSchedule = pollingSchedule,
+      pollingWorkers = pollingWorkers,
+      storageLevel = storageLevel)
+  }
+
+  def createUserStream(
+    ssc: StreamingContext,
+    auth: InstagramAuth,
+    userId: String,
+    pollingSchedule: PollingSchedule = PollingSchedule(30, TimeUnit.SECONDS),
+    pollingWorkers: Int = 1,
+    storageLevel: StorageLevel = StorageLevel.MEMORY_ONLY
+  ): ReceiverInputDStream[InstagramItem] = {
+    new InstagramInputDStream(
+      ssc = ssc,
+      client = new InstagramUserClient(
+        userId = userId,
         auth = auth),
       pollingSchedule = pollingSchedule,
       pollingWorkers = pollingWorkers,
