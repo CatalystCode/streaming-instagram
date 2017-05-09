@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
 
   // dependencies
+  "log4j" % "log4j" % "1.2.17",
   "net.liftweb" %% "lift-json" % "3.0.1"
 )
 
